@@ -1,0 +1,1 @@
+本地部署ollama，通过springAI进行接口调用
