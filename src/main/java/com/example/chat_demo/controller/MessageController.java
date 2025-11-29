@@ -5,6 +5,7 @@ import com.example.chat_demo.service.IMessageService;
 import org.springframework.ai.ollama.OllamaChatModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.codec.ServerSentEvent;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
@@ -21,12 +22,17 @@ public class MessageController {
     @Autowired
     private IMessageService messageService;
 
-    @GetMapping("/messages")
+    @GetMapping("/api/messages")
     public List<Message> getMessages(){
         return messageService.list();
     }
 
-    @GetMapping("/stream")
+    @DeleteMapping("/api/delete")
+    public void deleteAllMessages(){
+        messageService.remove(null);
+    }
+
+    @GetMapping("/api/stream")
     public Flux<ServerSentEvent<String>> chat(String prompt){
         // 用户消息
         Message umsg = new Message();
